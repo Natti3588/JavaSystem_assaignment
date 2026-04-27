@@ -49,10 +49,11 @@
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
 
 			<form method="get">
-				<div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
+				<div class="row border mx-3 mb-3 py-2 align-items-center rounded"
+					id="filter">
 					<div class="col-2">
-						<label class="form-label" for="test-f1-select">入学年度</label>
-						<select class="form-select " id="test-f1-select" name="f1">
+						<label class="form-label" for="test-f1-select">入学年度</label> <select
+							class="form-select " id="test-f1-select" name="f1">
 							<option value="0">--------</option>
 							<c:forEach var="year" items="${ent_year_set}">
 								<%-- 現在のyearと選択されていたf1が一致していた場合selectedを追記 --%>
@@ -61,8 +62,8 @@
 						</select>
 					</div>
 					<div class="col-2">
-						<label class="form-label" for="test-f2-select">クラス</label>
-						<select class="form-select " id="test-f2-select" name="f2">
+						<label class="form-label" for="test-f2-select">クラス</label> <select
+							class="form-select " id="test-f2-select" name="f2">
 							<option value="0">--------</option>
 							<c:forEach var="num" items="${class_num_set}">
 								<%-- 現在のnumと選択されていたf2が一致していた場合selectedを追記 --%>
@@ -71,18 +72,19 @@
 						</select>
 					</div>
 					<div class="col-4">
-						<label class="form-label" for="test-f3-select">科目</label>
-						<select class="form-select " id="test-f3-select" name="f3">
+						<label class="form-label" for="test-f3-select">科目</label> <select
+							class="form-select " id="test-f3-select" name="f3">
 							<option value="0">--------</option>
 							<c:forEach var="subject" items="${subjects}">
 								<%-- 現在のsubject.cdと選択されていたf3が一致していた場合selectedを追記 --%>
-								<option value="${subject.cd}" <c:if test="${subject.cd==f3}">selected</c:if>>${subject.name}</option>
+								<option value="${subject.cd}"
+									<c:if test="${subject.cd==f3}">selected</c:if>>${subject.name}</option>
 							</c:forEach>
 						</select>
 					</div>
 					<div class="col-2">
-						<label class="form-label" for="test-f3-select">回数</label>
-						<select class="form-select " id="test-f4-select" name="f4">
+						<label class="form-label" for="test-f3-select">回数</label> <select
+							class="form-select " id="test-f4-select" name="f4">
 							<option value="0">--------</option>
 							<c:forEach var="num" items="${num_set}">
 								<%-- 現在のnumと選択されていたf4が一致していた場合selectedを追記 --%>
@@ -105,7 +107,8 @@
 							<p>${done}</p>
 						</div>
 					</c:if>
-					<form method="post" id="test-form" action="TestRegistExecute.action">
+					<form method="post" id="test-form"
+						action="TestRegistExecute.action">
 						<div>科目：${subject.name}（${num}回）</div>
 						<table class="table table-hover">
 							<tr>
@@ -114,9 +117,6 @@
 								<th>学生番号</th>
 								<th>氏名</th>
 								<th>点数</th>
-								<!--
-								<th class="text-center">削除</th>
-								 -->
 							</tr>
 							<c:forEach var="test" items="${tests}">
 								<tr>
@@ -125,9 +125,9 @@
 									<td>${test.student.no}</td>
 									<td>${test.student.name}</td>
 									<td>
-										<!-- 登録する得点を学生番号を用いて取得できるようにする -->
-										<input type="number" name="point_${test.student.no}"
-											<c:choose>
+										<!-- 登録する得点を学生番号を用いて取得できるようにする --> <input type="number"
+										name="point_${test.student.no}"
+										<c:choose>
 												<%-- 入力された得点用マップに現在のstudent.noが含まれている場合 --%>
 												<c:when test="${input_points.containsKey(test.student.no)}">
 													<%-- 入力されていた得点を初期表示 --%>
@@ -140,29 +140,22 @@
 												</c:when>
 											</c:choose> />
 										<div class="mt-2 text-warning">${errors.get(test.student.no)}</div>
-										<!-- 登録する学生番号を一覧として送る -->
-										<input type="hidden" name="student_no_set[]" value="${test.student.no}" />
-									</td>
-									<td class="text-center">
-										<!-- 削除する成績を学生番号を用いて取得できるようにする -->
-										<!--
-										<input class="form-check-input" type="checkbox" name="delete_${test.student.no}" />
-										 -->
+										<!-- 登録する学生番号を一覧として送る --> <input type="hidden"
+										name="student_no_set[]" value="${test.student.no}" />
 									</td>
 								</tr>
 							</c:forEach>
 						</table>
-						<input type="hidden" id="test-subject_cd-hidden" name="subject_cd" value="${subject.cd}" />
-						<input type="hidden" id="test-num-hidden" name="num" value="${num}" />
-						<input type="hidden" id="test-f1-hidden" name="f1" value="${f1}" />
-						<input type="hidden" id="test-f2-hidden" name="f2" value="${f2}" />
-						<input type="hidden" id="test-f3-hidden" name="f3" value="${f3}" />
-						<input type="hidden" id="test-f4-hidden" name="f4" value="${f4}" />
+						<input type="hidden" id="test-subject_cd-hidden" name="subject_cd"
+							value="${subject.cd}" /> <input type="hidden"
+							id="test-num-hidden" name="num" value="${num}" /> <input
+							type="hidden" id="test-f1-hidden" name="f1" value="${f1}" /> <input
+							type="hidden" id="test-f2-hidden" name="f2" value="${f2}" /> <input
+							type="hidden" id="test-f3-hidden" name="f3" value="${f3}" /> <input
+							type="hidden" id="test-f4-hidden" name="f4" value="${f4}" />
 						<div class="mt-3">
-							<!--
-							<input class="btn btn-primary" type="submit" value="登録して再度入力" name="continue">
-							 -->
-							<input class="btn btn-secondary" type="submit" value="登録して終了" name="end" />
+							<input class="btn btn-secondary" type="submit" value="登録して終了"
+								name="end" />
 						</div>
 					</form>
 				</c:when>
