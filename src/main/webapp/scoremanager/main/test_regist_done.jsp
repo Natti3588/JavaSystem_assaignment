@@ -11,14 +11,10 @@
 		<div id="wrap_box">
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2">成績管理</h2>
 			<div id="wrap_box">
-				<p class="text-center" style="background-color:#8cc3a9">登録が完了しました</p>
+				<p class="text-center" style="background-color: #8cc3a9">登録が完了しました</p>
 
-				<br>
-				<br>
-				<br>
-				<a href="TestRegist.action">戻る</a>
-				<a>　　　　　</a>
-				<a href="TestList.action">成績参照</a>
+				<br> <br> <br> <a href="TestRegist.action">戻る</a> <a>
+				</a> <a href="TestList.action">成績参照</a>
 			</div>
 		</div>
 	</c:param>
