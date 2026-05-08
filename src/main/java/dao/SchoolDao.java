@@ -61,6 +61,7 @@ public class SchoolDao extends Dao {
         }
       }
     }
+    // schoolを返す
     return school;
   }
 }

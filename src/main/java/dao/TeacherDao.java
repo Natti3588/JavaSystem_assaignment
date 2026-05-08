@@ -34,6 +34,7 @@ public class TeacherDao extends Dao {
       // 学校Daoを初期化
       SchoolDao dao = new SchoolDao();
 
+      // 検索結果が存在する場合の処理
       if (resultSet.next()) {
         // リザルトセットが存在する場合
         // 教員インスタンスに検索結果をセット
@@ -73,6 +74,7 @@ public class TeacherDao extends Dao {
       }
     }
 
+    // teacherを返す
     return teacher;
   }
 
@@ -91,6 +93,8 @@ public class TeacherDao extends Dao {
     if (teacher == null || !teacher.getPassword().equals(password)) {
       return null;
     }
+    
+    // teacherを返す
     return teacher;
   }
 }
