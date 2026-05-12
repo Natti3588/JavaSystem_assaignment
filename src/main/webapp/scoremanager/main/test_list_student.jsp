@@ -1,70 +1,120 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- 成績参照SP --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<c:import url="/common/base.jsp" >
+	<c:param name="title">
+		得点管理システム
+	</c:param>
 
-<c:set var="mode" value="${param.includeMode}" />
-
-<c:if test="${mode == 'form'}">
+	<c:param name="scripts"></c:param>
+	<%-- 内容 --%>
+	<c:param name="content">
+	<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績参照（学生）</h2>
+<div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
+	<div class="mb-3">
+		<form action="TestListSubjectExecute.action" method="get"
+		 class="row gx-2 gy-2 align-items-center mt-3">
+				<div class="col-2">
+				<p>科目情報</p>
+				</div>
+				<%-- 入学年度 --%>
+					<div class="col-2">
+						<label class="form-label" for="student-f1-select">入学年度</label>
+						<select class="form-select" id="student-f1-select" name="f1">
+							<option value="0">--------</option>
+							<c:forEach var="y" items="${f1}">
+    						<option value="${y}" <c:if test="${y == param.f1}">selected</c:if>>
+						        ${y}
+						    </option>
+							</c:forEach>
+						</select>
+					</div>
+				<%-- クラス --%>
+					<div class="col-2">
+						<label class="form-label" for="student-f2-select">クラス</label>
+						<select class="form-select" id="student-f2-select" name="f2">
+							<option value="0">--------</option>
+							<c:forEach var="num" items="${ f2}">
+								<option value="${num }" <c:if test="${num==param.f2 }">selected</c:if>>${num }</option>
+							</c:forEach>
+						</select>
+					</div>
+				<%-- 科目 --%>
+					<div class="col-4">
+						<label class="form-label" for="student-f2-select">科目</label>
+						<select class="form-select" id="student-f2-select" name="f3">
+							<option value="0">--------</option>
+							    <c:forEach var="sub" items="${f3}">
+							        <option value="${sub.cd}"
+							            <c:if test="${sub.cd == param.f3}">selected</c:if>>
+							            ${sub.name}
+							</option>
+    							</c:forEach>
+						 </select>
+					</div>
+					<div class="col-2 text-center">
+						<button class="btn btn-secondary" id="filter-button">検索</button>
+					</div>
+			</form>				
+			<hr class="my-4" />
 	<div class="mb-3">
 		<form action="TestListStudentExecute.action" method="get"
-			  class="row gx-2 gy-2 align-items-center mt-3">
-			<!-- 見出しを行の中央（縦方向）に配置 -->
-			<div class="col-auto me-4">
-				<h6 class="h5 mb-0 fw-normal">学生情報</h6>
-			</div>
-			<div class="col-auto">
-				<label for="studentNo" class="form-label">学生番号</label>
-				<input id="studentNo"
-					   type="text"
-					   name="studentNo"
-					   class="form-control"
-					   placeholder="学生番号を入力してください"
-					   value="${param.studentNo}"
-					   required
-					   oninvalid="this.setCustomValidity('このフィールドを入力してください')"
-					   oninput="this.setCustomValidity('')" />
-			</div>
-			<div class="col-auto">
-				<button type="submit" class="btn btn-secondary">検索</button>
-			</div>
+		 class="row gx-2 gy-2 align-items-center mt-3">
+				<div class="col-2 text-center">
+				<p>科目情報</p>
+				</div>
+				<%-- 学生番号 --%>
+					<div class="col-4">
+						<label class="form-label" for="student-f4-text">学生番号</label>
+						<input class="form-control" type="text" id="student-f4-text" value="${search_stu.no}" 
+						name="f4"required maxlength="10"  />
+					</div>
+					<div class="col-2 text-center">
+						<button class="btn btn-secondary" id="filter-button">検索</button>
+					</div>	
 		</form>
-		<c:if test="${studentNotFound}">
-			<div class="text-danger mt-2">指定した学生情報が見つかりません</div>
-		</c:if>
 	</div>
-</c:if>
+	</div>
+</div>		
+		
+		
+			
+<div class="mb-5">
+		
+<%-- 成績情報 --%>
+<c:if test="${not empty studentResults}">	
+<p class="mb-3">
+    氏名：${search_stu.name}（${search_stu.no }）
+</p>
 
-<c:if test="${mode == 'result'}">
-	<c:if test="${not empty studentResults}">
-		<div class="mb-5">
-			<h3 class="h5 mb-2 fw-normal">生徒別検索結果</h3>
-			<p class="mb-3">
-				氏名：<c:out value="${searchStudent.name}" />　
-				(<c:out value="${searchStudent.no}" />)
-			</p>
-			<div class="table-responsive">
-				<table class="table table-hover">
-					<thead>
-					<tr>
-						<th>科目名</th><th>科目コード</th>
-						<th>回数</th><th>点数</th>
-					</tr>
-					</thead>
-					<tbody>
-					<c:forEach var="item" items="${studentResults}">
-						<tr>
-							<td><c:out value="${item.subjectName}" /></td>
-							<td><c:out value="${item.subjectCd}" /></td>
-							<td><c:out value="${item.num}" /></td>
-							<td><c:out value="${item.point}" /></td>
-						</tr>
-					</c:forEach>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</c:if>
-	<c:if test="${studentResultsNotFound}">
-		<p class="mb-3">氏名：<c:out value="${searchStudent.name}" />(<c:out value="${searchStudent.no}" />)</p>
-		<div class="text-warning mb-5">成績情報が存在しませんでした</div>
-	</c:if>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>科目名</th>
+                <th>科目コード</th>
+                <th>回数</th>
+                <th>点数</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+<%-- TestListStudentExecuteAction.javaから取得し、テーブル表示 --%>
+<c:forEach var="item" items="${studentResults}">
+
+    <tr>
+        <td><c:out value="${item.subjectName}" /></td><%-- 科目名 --%>
+        <td><c:out value="${item.subjectCd}" /></td><%-- 科目コード --%>
+		<td><c:out value="${item.num}" /><%--回数 --%>
+		<td><c:out value="${item.point}" /></td><%--点数 --%>
+    </tr>
+</c:forEach>
+        </tbody>
+    </table>
+</div>
+</div>
 </c:if>
+	</c:param>
+<%-- 内容終了 --%>
+</c:import>
