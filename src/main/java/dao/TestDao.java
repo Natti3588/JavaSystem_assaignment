@@ -49,14 +49,16 @@ public class TestDao extends Dao {
 
   public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school)
       throws Exception {
-    // Test型のリストを宣言
+
     List<Test> list = new ArrayList<>();
 
     String sql =
-        "SELECT s.ent_year AS student_entyear, s.class_num AS student_classnum, s.no AS student_no, s.name AS student_name, t.class_num AS class_num, t.point AS POINT "
-            + "FROM student s "
-            + "LEFT JOIN TEST t ON s.no = t.student_no AND t.subject_cd = ? AND t.no = ? "
-            + "WHERE s.ent_year = ? AND s.class_num = ? AND s.school_cd = ? " + "ORDER BY s.NO ASC";
+        "SELECT s.ent_year   AS student_entyear, " + "       s.class_num  AS student_classnum, "
+            + "       s.no         AS student_no, " + "       s.name       AS student_name, "
+            + "       t.class_num  AS class_num, " + "       t.point      AS POINT "
+            + "  FROM student s " + "  LEFT JOIN test t " + "    ON  s.no         = t.student_no "
+            + "    AND t.subject_cd = ? " + "    AND t.no         = ? " + " WHERE s.ent_year   = ? "
+            + "   AND s.class_num  = ? " + "   AND s.school_cd  = ? " + " ORDER BY s.no ASC";
 
     try (Connection con = super.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
 
@@ -68,24 +70,53 @@ public class TestDao extends Dao {
 
       try (ResultSet rSet = st.executeQuery()) {
         while (rSet.next()) {
-          Test test = new Test();
           Student student = new Student();
-
           student.setEntyear(rSet.getInt("student_entyear"));
           student.setClassNum(rSet.getString("student_classnum"));
           student.setNo(rSet.getString("student_no"));
           student.setName(rSet.getString("student_name"));
 
+          Test test = new Test();
           test.setStudent(student);
-
           test.setClassNum(rSet.getString("class_num"));
-          test.setPoint(rSet.getInt("POINT"));
+
+          // ★ NULL を -1 に変換
+          int point = rSet.getInt("POINT");
+          if (rSet.wasNull()) {
+            point = -1;
+          }
+          test.setPoint(point);
 
           list.add(test);
         }
       }
     }
     return list;
+  }
+
+  public boolean save(List<Test> list) throws Exception {
+
+    String sql = "UPDATE test SET point = ?" + "WHERE school_cd = ? " + "AND student_no = ? "
+        + "AND subject_cd = ? " + "AND no = ?";
+
+    try (Connection con = super.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+
+      for (Test test : list) {
+        st.setInt(1, test.getPoint());
+        st.setString(2, test.getSchool().getCd());
+        st.setString(3, test.getStudent().getNo());
+        st.setString(4, test.getSubject().getCd());
+        st.setInt(5, test.getNo());
+
+        st.executeUpdate();
+      }
+      return true;
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+
   }
 
 }

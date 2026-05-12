@@ -99,6 +99,7 @@
 				</div>
 			</form>
 			<c:choose>
+			
 				<%-- 成績情報が存在する場合 --%>
 				<c:when test="${tests.size()>0}">
 					<%-- パラメーターdoneが存在する場合 --%>
@@ -107,8 +108,7 @@
 							<p>${done}</p>
 						</div>
 					</c:if>
-					<form method="post" id="test-form"
-						action="TestRegistExecute.action">
+					<form method="post" id="test-form" action="TestRegistExecute.action">
 						<div>科目：${subject.name}（${num}回）</div>
 						<table class="table table-hover">
 							<tr>
@@ -125,37 +125,35 @@
 									<td>${test.student.no}</td>
 									<td>${test.student.name}</td>
 									<td>
-										<!-- 登録する得点を学生番号を用いて取得できるようにする --> <input type="number"
-										name="point_${test.student.no}"
+										<%-- 表示する得点用の変数displayPointを宣言 --%>
+										<c:set var="displayPoint" value="" />
+										
 										<c:choose>
-												<%-- 入力された得点用マップに現在のstudent.noが含まれている場合 --%>
-												<c:when test="${input_points.containsKey(test.student.no)}">
-													<%-- 入力されていた得点を初期表示 --%>
-													value="${input_points.get(test.student.no)}"
-												</c:when>
-												<%-- 成績にデータが存在する場合 --%>
-												<c:when test="${test.point!=-1}">
-													<%-- 登録されている得点を初期表示 --%>
-													value="${test.point}"
-												</c:when>
-											</c:choose> />
+											<c:when test="${not empty input_points.get(test.student.no)}">
+												<c:set var="displayPoint" value="${input_points.get(test.student.no)}" />
+											</c:when>
+											<%-- データベース上に成績が登録されている場合--%>
+											<c:when test="${test.point!=-1}">
+												<c:set var="displayPoint" value="${test.point}" />
+											</c:when>
+										</c:choose> 
+										
+										<%-- valueにdisplayPointを入れる --%>
+										<input type="number" name="point_${test.student.no}" value="${displayPoint}" />
+											
 										<div class="mt-2 text-warning">${errors.get(test.student.no)}</div>
-										<!-- 登録する学生番号を一覧として送る --> <input type="hidden"
-										name="student_no_set[]" value="${test.student.no}" />
 									</td>
 								</tr>
 							</c:forEach>
 						</table>
-						<input type="hidden" id="test-subject_cd-hidden" name="subject_cd"
-							value="${subject.cd}" /> <input type="hidden"
-							id="test-num-hidden" name="num" value="${num}" /> <input
-							type="hidden" id="test-f1-hidden" name="f1" value="${f1}" /> <input
-							type="hidden" id="test-f2-hidden" name="f2" value="${f2}" /> <input
-							type="hidden" id="test-f3-hidden" name="f3" value="${f3}" /> <input
-							type="hidden" id="test-f4-hidden" name="f4" value="${f4}" />
+							<input type="hidden" id="test-subject_cd-hidden" name="subject_cd" value="${subject.cd}" />
+							<input type="hidden"id="test-num-hidden" name="num" value="${num}" />
+							<input type="hidden" id="test-f1-hidden" name="f1" value="${f1}" /> 
+							<input type="hidden" id="test-f2-hidden" name="f2" value="${f2}" /> 
+							<input type="hidden" id="test-f3-hidden" name="f3" value="${f3}" /> 
+							<input type="hidden" id="test-f4-hidden" name="f4" value="${f4}" />
 						<div class="mt-3">
-							<input class="btn btn-secondary" type="submit" value="登録して終了"
-								name="end" />
+							<input class="btn btn-secondary" type="submit" value="登録して終了" name="end" />
 						</div>
 					</form>
 				</c:when>
@@ -163,6 +161,7 @@
 				<c:when test="${tests.size()==0}">
 					<div>学生情報が存在しませんでした</div>
 				</c:when>
+				
 			</c:choose>
 		</section>
 	</c:param>
