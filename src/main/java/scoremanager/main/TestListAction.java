@@ -4,6 +4,7 @@ package scoremanager.main;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import bean.Teacher;
 import dao.ClassNumDao;
 import dao.SubjectDao;
@@ -41,7 +42,7 @@ public class TestListAction extends Action {
     
     // 10年前から来年までの年度をリストに追加する
     for (int i = year - 10; i <= year + 1; i++) {
-      entYearSet.add(i);
+      entYearSet.add(i);}
       
       // クラス番号・科目・入学年度のデータをJSPに渡す
       req.setAttribute("class_num_set", classNum);
@@ -49,7 +50,6 @@ public class TestListAction extends Action {
       req.setAttribute("ent_year_set", entYearSet);
       
       // test_list.jspへフォワード
-      req.getRequestDispatcher("test_list.jsp").forward(req, res);
+      req.getRequestDispatcher("NewFile.jsp").forward(req, res);
     }
   }
-}
