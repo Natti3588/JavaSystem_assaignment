@@ -10,7 +10,7 @@
 	<c:param name="scripts"></c:param>
 	<%-- 内容 --%>
 	<c:param name="content">
-	<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績参照（科目）</h2>
+	<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績一覧（科目）</h2>
 <div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
 	<div class="mb-3">
 		<form action="TestListSubjectExecute.action" method="get"
@@ -135,3 +135,6 @@
 	</c:param>
 <%-- 内容終了 --%>
 </c:import>
+
+<%--条件分岐--%>
+<%-- https://segakuin.com/java/jsp/jstl/choose.html --%>
