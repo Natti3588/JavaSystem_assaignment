@@ -5,13 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
 import bean.School;
 import bean.Subject;
 import bean.TestListSubject;
 
 public class TestListSubjectDao extends Dao{
 	
+    // sqlを宣言
 	String baseSql =
 		    "SELECT " +							
 		    "t.NO AS test_no, " +

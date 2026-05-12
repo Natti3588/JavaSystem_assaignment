@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
 import bean.Student;
 import bean.TestListStudent;
 
@@ -23,6 +22,7 @@ public class TestListStudentDao extends Dao {
 		// TestListStudent型のリストを初期化
 		List<TestListStudent> list = new ArrayList<>();
 
+		// 引数で渡されたrSetをwhile文で回してlistに追加する
 		while (rSet.next()) {
 
 			// TestListStudentインスタンスを生成
@@ -36,6 +36,7 @@ public class TestListStudentDao extends Dao {
 			list.add(test);
 		}
 
+		// listを返す
 		return list;
 	}
 
@@ -45,6 +46,7 @@ public class TestListStudentDao extends Dao {
 		// TestListStudent型のリストを初期化
 		List<TestListStudent> list = new ArrayList<>();
 
+		// データベースに接続してSQLを実行する準備
 		try (
 			Connection con = super.getConnection();
 			PreparedStatement st = con.prepareStatement(baseSql)
@@ -61,6 +63,7 @@ public class TestListStudentDao extends Dao {
 			}
 		}
 
+		// listを返す
 		return list;
 	}
 }
