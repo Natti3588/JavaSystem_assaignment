@@ -7,42 +7,7 @@
 		得点管理システム
 	</c:param>
 
-	<c:param name="scripts">
-		<script type="text/javascript">
-			$(function() {
-				// submitボタンクリック時のサブミット処理
-				$("#test-submit-button").click(function() {
-					$("#test-form").submit();
-				});
-
-				// 成績入力欄を取得
-				let input = $("input[type='number']");
-				// キーボード押下時の処理
-				input.on("keydown", function(e) {
-					// 成績入力欄の個数を取得
-					let n = input.length;
-					// Enterキーが押された場合
-					if (e.which == 13) {
-						e.preventDefault();
-						// 入力欄番号を取得
-						let Index = input.index(this);
-						// 次の入力欄番号を取得
-						let nextIndex = input.index(this) + 1;
-						// 次の入力欄番号が個数以下場合
-						if (nextIndex < n) {
-							// 次の要素へフォーカスを移動
-							input[nextIndex].focus();
-							// 次の要素を全選択
-							input[nextIndex].select();
-						} else {
-							// 最後の要素ではフォーカスを外す
-							input[Index].blur();
-						}
-					}
-				});
-			});
-		</script>
-	</c:param>
+	<c:param name="scripts"></c:param>
 
 	<c:param name="content">
 		<section class="me-4">

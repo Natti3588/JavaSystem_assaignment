@@ -101,9 +101,9 @@ public class TestListSubjectExecuteAction extends Action {
 	    	errors.put("f1", "学生情報が存在しませんでした");
 		      // リクエストにエラーメッセージをセット
 		      req.setAttribute("error", errors);
-			  req.getRequestDispatcher("NewFile2.jsp").forward(req, res);
+			  req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
 
 	      }
-	    req.getRequestDispatcher("NewFile2.jsp").forward(req, res);	    
+	    req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);	    
 	      }	    
 	  }

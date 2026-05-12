@@ -14,7 +14,8 @@ public class TestListStudentDao extends Dao {
 	 //成績取得用SQL
 	 //student_no を条件に test テーブルから成績情報を取得する
 	 
-	private String baseSql ="SELECT * FROM test WHERE student_no = ?";
+	private String baseSql =
+			"SELECT * FROM test JOIN subject s ON test.subject_cd = s.cd WHERE student_no = ?";
 
 	//ResultSet から TestListStudent のリストを生成する
 	private List<TestListStudent> postFilter(ResultSet rSet) throws Exception {
@@ -29,6 +30,7 @@ public class TestListStudentDao extends Dao {
 			TestListStudent test = new TestListStudent();
 
 			// ResultSet のから取得した値をBeanにセット
+			test.setSubjectName(rSet.getString("name"));
 			test.setSubjectCd(rSet.getString("subject_cd"));
 			test.setNum(rSet.getInt("no"));
 			test.setPoint(rSet.getInt("point"));

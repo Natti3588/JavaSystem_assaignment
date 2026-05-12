@@ -50,6 +50,6 @@ public class TestListAction extends Action {
       req.setAttribute("ent_year_set", entYearSet);
       
       // test_list.jspへフォワード
-      req.getRequestDispatcher("NewFile.jsp").forward(req, res);
+      req.getRequestDispatcher("test_list.jsp").forward(req, res);
     }
   }
