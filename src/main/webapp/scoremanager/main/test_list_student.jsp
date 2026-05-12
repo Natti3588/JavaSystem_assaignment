@@ -82,12 +82,16 @@
 			
 <div class="mb-5">
 		
-<%-- 成績情報 --%>
-<c:if test="${not empty studentResults}">	
+<div>
 <p class="mb-3">
     氏名：${search_stu.name}（${search_stu.no }）
-</p>
+</p></div>
+<%--エラー表示 --%>
+<div>${error.f1 }	</div>
+	
 
+<%-- 成績情報 --%>
+<c:if test="${not empty studentResults}">	
 <div class="table-responsive">
     <table class="table table-hover">
         <thead>
