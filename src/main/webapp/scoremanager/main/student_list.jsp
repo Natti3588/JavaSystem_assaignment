@@ -52,7 +52,6 @@
 				</div>
 			</form>
 
-
 			<c:choose>
 				<c:when test="${students.size()>0 }">
 					<div>検索結果：${students.size() }件</div>
