@@ -15,7 +15,7 @@
 			<form action="TestListSubjectExecute.action" method="get"
 			 class="row gx-2 gy-2 align-items-center mt-3">
 				
-					<div class="col-2">
+					<div class="col-2 text-center">
 					<p>科目情報</p>
 					</div>					
 					<%-- 入学年度 --%>
@@ -67,7 +67,7 @@
 			<form action="TestListStudentExecute.action" method="get"
 			 class="row gx-2 gy-2 align-items-center mt-3">
 				
-				<div class="col-2">
+				<div class="col-2 text-center">
 					<p>学生情報</p>
 				</div>
 				<div class="col-4">
