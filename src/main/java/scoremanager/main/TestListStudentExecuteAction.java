@@ -2,7 +2,9 @@ package scoremanager.main;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bean.Student;
 import bean.Teacher;
@@ -27,7 +29,8 @@ public class TestListStudentExecuteAction extends Action{
 	    SubjectDao subjectDao = new SubjectDao();
 	    StudentDao studentDao = new StudentDao();
 	    TestListStudentDao testliststudentDao = new TestListStudentDao();
-	    
+	    Map<String, String> errors = new HashMap<>();
+
 	    List<TestListStudent> testliststudent = null;
 //		入力された学生番号の取得
 	    String search_no= req.getParameter("f4");
@@ -66,7 +69,14 @@ public class TestListStudentExecuteAction extends Action{
 	    req.setAttribute("f1", entYearSet);
 	    req.setAttribute("f2", classNum);
 	    req.setAttribute("f3", subjects);
-	    
+//		成績一覧結果が空の時
+    if(testliststudent.isEmpty()){
+    	errors.put("f1", "学生情報が存在しませんでした");
+	      // リクエストにエラーメッセージをセット
+	      req.setAttribute("error", errors);
+		  req.getRequestDispatcher("test_list_student.jsp").forward(req, res);
+
+      }
 //	    jspにフォワード
 	    req.getRequestDispatcher("test_list_student.jsp").forward(req, res);	
 	}
