@@ -27,38 +27,38 @@ public class TestDao extends Dao {
       st.setInt(4, no);
 
       try (ResultSet rSet = st.executeQuery()) {
-        StudentDao studentDao = new StudentDao();
-        SubjectDao subjectDao = new SubjectDao();
-        SchoolDao schoolDao = new SchoolDao();
 
-        test = new Test();
+        if (rSet.next()) {
+          StudentDao studentDao = new StudentDao();
+          SubjectDao subjectDao = new SubjectDao();
+          SchoolDao schoolDao = new SchoolDao();
 
-        test.setStudent(studentDao.get(rSet.getString("student_no")));
-        test.setClassNum(rSet.getString("class_num"));
-        test.setSubject(subjectDao.get(rSet.getString("subject_cd"), schoolDao.get("school_cd")));
-        test.setSchool(schoolDao.get(rSet.getString("school_cd")));
-        test.setNo(rSet.getInt("no"));
-        test.setPoint(rSet.getInt("point"));
+          test = new Test();
+
+          test.setStudent(studentDao.get(rSet.getString("student_no")));
+          test.setClassNum(rSet.getString("class_num"));
+          test.setSubject(subjectDao.get(rSet.getString("subject_cd"),
+              schoolDao.get(rSet.getString("school_cd"))));
+          test.setSchool(schoolDao.get(rSet.getString("school_cd")));
+          test.setNo(rSet.getInt("no"));
+          test.setPoint(rSet.getInt("point"));
+        }
       }
 
     }
     return test;
   }
 
-
-
   public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school)
       throws Exception {
 
     List<Test> list = new ArrayList<>();
 
-    String sql =
-        "SELECT s.ent_year   AS student_entyear, " + "       s.class_num  AS student_classnum, "
-            + "       s.no         AS student_no, " + "       s.name       AS student_name, "
-            + "       t.class_num  AS class_num, " + "       t.point      AS POINT "
-            + "  FROM student s " + "  LEFT JOIN test t " + "    ON  s.no         = t.student_no "
-            + "    AND t.subject_cd = ? " + "    AND t.no         = ? " + " WHERE s.ent_year   = ? "
-            + "   AND s.class_num  = ? " + "   AND s.school_cd  = ? " + " ORDER BY s.no ASC";
+    String sql = "SELECT s.ent_year AS student_entyear, " + "s.class_num AS student_classnum, "
+        + "s.no AS student_no, " + "s.name AS student_name, " + "t.class_num AS class_num, "
+        + "t.point AS POINT " + "FROM student s " + "LEFT JOIN test t " + "ON s.no = t.student_no "
+        + "AND t.subject_cd = ? " + " AND t.no = ? " + "WHERE s.ent_year = ? "
+        + "AND s.class_num = ? " + "AND s.school_cd = ? " + "ORDER BY s.no ASC";
 
     try (Connection con = super.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
 
@@ -96,27 +96,48 @@ public class TestDao extends Dao {
 
   public boolean save(List<Test> list) throws Exception {
 
-    String sql = "UPDATE test SET point = ?" + "WHERE school_cd = ? " + "AND student_no = ? "
+    String sql = "UPDATE test SET point = ? " + "WHERE school_cd = ? " + "AND student_no = ? "
         + "AND subject_cd = ? " + "AND no = ?";
 
-    try (Connection con = super.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+    try (Connection con = super.getConnection()) {
 
+      // 引数で渡されたtestが存在しているかをセット
       for (Test test : list) {
-        st.setInt(1, test.getPoint());
-        st.setString(2, test.getSchool().getCd());
-        st.setString(3, test.getStudent().getNo());
-        st.setString(4, test.getSubject().getCd());
-        st.setInt(5, test.getNo());
 
-        st.executeUpdate();
+        Test tes = get(test.getStudent(), test.getSubject(), test.getSchool(), test.getNo());
+
+        // すでにある場合は上書き
+        if (tes != null) {
+          try (PreparedStatement st = con.prepareStatement(sql)) {
+            st.setInt(1, test.getPoint());
+            st.setString(2, test.getSchool().getCd());
+            st.setString(3, test.getStudent().getNo());
+            st.setString(4, test.getSubject().getCd());
+            st.setInt(5, test.getNo());
+
+            st.executeUpdate();
+          }
+
+        } else {
+          String insertSql = "INSERT INTO test(school_cd, student_no, subject_cd, no, point) "
+              + "VALUES(?, ?, ?, ?, ?)";
+
+          try (PreparedStatement st = con.prepareStatement(insertSql)) {
+
+            // プリペアドステートメントに値をセット
+            st.setString(1, test.getSchool().getCd());
+            st.setString(2, test.getStudent().getNo());
+            st.setString(3, test.getSubject().getCd());
+            st.setInt(4, test.getNo());
+            st.setInt(5, test.getPoint());
+
+            st.executeUpdate();
+          }
+        }
+
       }
-      return true;
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      return false;
     }
-
+    return true;
   }
-
 }
+

@@ -53,8 +53,7 @@ public class TestRegistAction extends Action {
       Subject subject = subjectDao.get(subjectCd, school);
 
       // 条件に合うテスト一覧を取得
-      TestDao testDao = new TestDao();
-      List<Test> tests = testDao.filter(entYear, classNum, subject, count, school);
+      List<Test> tests = new TestDao().filter(entYear, classNum, subject, count, school);
 
       // 一覧と表示用情報を画面に渡す
       req.setAttribute("tests", tests);
