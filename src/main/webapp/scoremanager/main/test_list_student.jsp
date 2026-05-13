@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <c:import url="/common/base.jsp" >
 	<c:param name="title">
 		得点管理システム
@@ -67,7 +68,7 @@
 				<%-- 学生番号 --%>
 					<div class="col-4">
 						<label class="form-label" for="student-f4-text">学生番号</label>
-						<input class="form-control" type="text" id="student-f4-text" value="${search_stu.no}" 
+						<input class="form-control" type="text" id="student-f4-text" value="${fn:trim(search_stu.no)}" 
 						name="f4"required maxlength="10"  />
 					</div>
 					<div class="col-2 text-center">
@@ -84,7 +85,7 @@
 		
 <div>
 <p class="mb-3">
-    氏名：${search_stu.name}（${search_stu.no }）
+    氏名：${search_stu.name}（${fn:trim(search_stu.no)}）
 </p></div>
 <%--エラー表示 --%>
 <div>${error.f1 }	</div>
@@ -122,3 +123,5 @@
 	</c:param>
 <%-- 内容終了 --%>
 </c:import>
+
+<%-- https://knovus.site/primer_java/gsi/1077/ --%>
