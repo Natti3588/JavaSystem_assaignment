@@ -51,7 +51,6 @@ public class TestDao extends Dao {
 
   public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school)
       throws Exception {
-
     List<Test> list = new ArrayList<>();
 
     String sql = "SELECT s.ent_year AS student_entyear, " + "s.class_num AS student_classnum, "
