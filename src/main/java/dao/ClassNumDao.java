@@ -99,11 +99,7 @@ public class ClassNumDao extends Dao {
 		
 	    String sql = "INSERT INTO class_num(school_cd,class_num) VALUES(?,?)";
 	    try (Connection con = super.getConnection()) {
-	        try (PreparedStatement st = con.prepareStatement(sql)) {
-
-		
-			// プリペアードステートメントにINSERT文をセット
-					
+	        try (PreparedStatement st = con.prepareStatement(sql)) {					
 			// プリペアードステートメントに値をバインド
 			st.setString(1,classNum.getSchool().getCd() );
 			st.setString(2, classNum.getClass_num());
@@ -140,7 +136,7 @@ public boolean save(ClassNum classNum, String newClassNum) throws Exception {
                 st.setString(1, newClassNum);
                 st.setString(2, oldClassNum);
                 st.setString(3, schoolCd);
-                st.executeUpdate();
+                count += st.executeUpdate();
             }
 
             // B. 学生テーブルの所属クラスを更新
@@ -149,7 +145,7 @@ public boolean save(ClassNum classNum, String newClassNum) throws Exception {
                 st.setString(1, newClassNum);
                 st.setString(2, oldClassNum);
                 st.setString(3, schoolCd);
-                st.executeUpdate(); // 該当する学生が0人でもエラーにはなりません
+                count += st.executeUpdate(); // 該当する学生が0人でもエラーにはなりません
             }
 
             // C. テストテーブルの所属クラスを更新
@@ -158,7 +154,7 @@ public boolean save(ClassNum classNum, String newClassNum) throws Exception {
                 st.setString(1, newClassNum);
                 st.setString(2, oldClassNum);
                 st.setString(3, schoolCd);
-                st.executeUpdate();
+                count += st.executeUpdate();        		          
             }
 
             // 全ての問題がなければ実行

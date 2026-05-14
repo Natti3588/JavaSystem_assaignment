@@ -22,6 +22,10 @@
 						       maxlength="3"
 						       required>
 					</div>
+					<div>
+					<%--変更予定のクラスをセット--%>
+					<input type="hidden" name="old" value="${oldnum }">
+					</div>
 
 					<div class="my-2 text-warning">
 						${errors.get("num")}

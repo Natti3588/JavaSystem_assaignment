@@ -21,7 +21,7 @@
 							<c:forEach var="class_num" items="${class_num_set}">
 								<tr class="align-middle">
 									<td>${class_num}</td>
-									<td><a href="ClassUpdate.action">変更</a></td>
+									<td><a href="ClassUpdate.action?num=${class_num}">変更</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
