@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 import bean.ClassNum;
 import bean.School;
 
@@ -87,5 +88,93 @@ public class ClassNumDao extends Dao {
     // listを返す
     return list;
   }
+	/**
+	 * 登録用のsaveメソッド
+	 * @param classNum
+	 * @return 実行可否
+	 * @throws Exception
+	 */
+	public boolean save(ClassNum classNum) throws Exception {
 
+		
+	    String sql = "INSERT INTO class_num(school_cd,class_num) VALUES(?,?)";
+	    try (Connection con = super.getConnection()) {
+	        try (PreparedStatement st = con.prepareStatement(sql)) {
+
+		
+			// プリペアードステートメントにINSERT文をセット
+					
+			// プリペアードステートメントに値をバインド
+			st.setString(1,classNum.getSchool().getCd() );
+			st.setString(2, classNum.getClass_num());
+			
+		      // executeUpdateを実行して更新件数が1以上だったらtrueを返す（そうでない場合はfalse）
+	          return st.executeUpdate() > 0;
+	        }
+	      }
+	    }
+	  
+
+	/**
+	 * 変更用saveメソッド
+	 * @param classNum
+	 * @param newClassNum
+	 * @return 変更可否
+	 * @throws Exception
+	 */
+public boolean save(ClassNum classNum, String newClassNum) throws Exception {
+    // 既存のデータを取得
+    String schoolCd = classNum.getSchool().getCd();
+    String oldClassNum = classNum.getClass_num();
+    int count = 0;
+    // 2. 接続を確立
+    try (Connection con = super.getConnection()) {
+        // --- トランザクション開始 ---
+        // 途中で失敗した時に「一部だけ更新される」のを防ぐ
+        con.setAutoCommit(false);
+
+        try {
+            // A. クラス名テーブルの更新
+            String sqlClass = "UPDATE class_num SET class_num=? WHERE class_num=? AND school_cd=?";
+            try (PreparedStatement st = con.prepareStatement(sqlClass)) {
+                st.setString(1, newClassNum);
+                st.setString(2, oldClassNum);
+                st.setString(3, schoolCd);
+                st.executeUpdate();
+            }
+
+            // B. 学生テーブルの所属クラスを更新
+            String sqlStudent = "UPDATE student SET class_num=? WHERE class_num=? AND school_cd=?";
+            try (PreparedStatement st = con.prepareStatement(sqlStudent)) {
+                st.setString(1, newClassNum);
+                st.setString(2, oldClassNum);
+                st.setString(3, schoolCd);
+                st.executeUpdate(); // 該当する学生が0人でもエラーにはなりません
+            }
+
+            // C. テストテーブルの所属クラスを更新
+            String sqlTest = "UPDATE test SET class_num=? WHERE class_num=? AND school_cd=?";
+            try (PreparedStatement st = con.prepareStatement(sqlTest)) {
+                st.setString(1, newClassNum);
+                st.setString(2, oldClassNum);
+                st.setString(3, schoolCd);
+                st.executeUpdate();
+            }
+
+            // 全ての問題がなければ実行
+            con.commit();
+
+        } catch (Exception e) {
+            // どこかで1つでもエラーが起きたら、ロールバック
+            con.rollback();
+            throw e;
+        } finally {
+            // オートコミットを元の設定に戻す
+            con.setAutoCommit(true);
+        }
+    }
+ return count >0;
 }
+}
+
+//https://kanda-it-school-kensyu.com/java-jdbc-contents/jj_ch03/jj_0301/
