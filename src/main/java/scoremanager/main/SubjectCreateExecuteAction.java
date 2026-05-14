@@ -51,6 +51,7 @@ public class SubjectCreateExecuteAction extends Action{
 			errors.put("2", "科目コードが重複しています");
 			// リクエストにエラーメッセージをセット
 			req.setAttribute("errors", errors);
+
 			} else {
 //				// subjectに科目情報をセット
 				subject.setCd(subject_cd);
@@ -65,11 +66,16 @@ public class SubjectCreateExecuteAction extends Action{
 		
 
 		// JSPへフォワード 7
-		if (errors.isEmpty()) { // エラーメッセージがない場合
+		if (errors.isEmpty()) {
+			// エラーメッセージがない場合
 			// 登録完了画面にフォワード
 			req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
-		} else { // エラーメッセージがある場合
-			
+		} else { 
+			// エラーメッセージがある場合
+			//入力情報を属性にセット
+			req.setAttribute("cd", subject_cd);
+			req.setAttribute("name", subject_name);
+
 			// 登録画面にフォワード
 			req.getRequestDispatcher("SubjectCreate.action").forward(req, res);
 		}
