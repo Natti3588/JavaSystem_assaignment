@@ -19,7 +19,7 @@
 						       name="num"
 						       value="${num}"
 						       placeholder="クラス番号を入力してください"
-						       maxlength="3"
+						       maxlength="5"
 						       required>
 					</div>
 					<div>
