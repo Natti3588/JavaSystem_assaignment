@@ -25,7 +25,7 @@
 							<option value="0">--------</option>
 								<%-- 現在のyearと選択されていたf1が一致していた場合selectedを追記 --%>
 							<c:forEach var="y" items="${ent_year_set}">
-	    					<option value="${y}" <c:if test="${y == param.ent_year_set}">selected</c:if>>
+	    					<option value="${y}" <c:if test="${y == param.f1}">selected</c:if>>
 	    					${y}</option>
 							</c:forEach>
 						</select>

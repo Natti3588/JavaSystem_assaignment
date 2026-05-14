@@ -16,6 +16,7 @@
 				<br>
 				<br>
 				<a href="ClassList.action">戻る</a>
+				<a>　　　　　</a>
 				<a href="ClassList.action">クラス一覧</a>
 			</div>
 		</div>

@@ -13,8 +13,7 @@
 			<div id="wrap_box">
 				<p class="text-center" style="background-color: #8cc3a9">登録が完了しました</p>
 
-				<br> <br> <br> <a href="TestRegist.action">戻る</a> <a>
-				</a> <a href="TestList.action">成績参照</a>
+				<br> <br> <br> <a href="TestRegist.action">戻る</a><a href="TestList.action">成績参照</a>
 			</div>
 		</div>
 	</c:param>

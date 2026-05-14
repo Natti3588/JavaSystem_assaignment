@@ -26,12 +26,9 @@ public class ClassCreateExecuteAction extends Action {
     classNum.setClass_num(classNumstr);
     classNum.setSchool(teacher.getSchool());
 
-    boolean result = new ClassNumDao().save(classNum);
+    new ClassNumDao().save(classNum);
 
-    if (result) {
-      req.getRequestDispatcher("class_create_done.jsp").forward(req, res);
-    }
-
+    req.getRequestDispatcher("class_create_done.jsp").forward(req, res);
   }
 
 }
