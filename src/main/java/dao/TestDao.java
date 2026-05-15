@@ -49,6 +49,33 @@ public class TestDao extends Dao {
     return test;
   }
 
+  private List<Test> postFilter(ResultSet rSet, School school) throws Exception {
+
+    List<Test> list = new ArrayList<>();
+    while (rSet.next()) {
+      Student student = new Student();
+      student.setEntyear(rSet.getInt("student_entyear"));
+      student.setClassNum(rSet.getString("student_classnum"));
+      student.setNo(rSet.getString("student_no"));
+      student.setName(rSet.getString("student_name"));
+
+      Test test = new Test();
+      test.setStudent(student);
+      test.setClassNum(rSet.getString("class_num"));
+
+      // ★ NULL を -1 に変換
+      int point = rSet.getInt("POINT");
+      if (rSet.wasNull()) {
+        point = -1;
+      }
+      test.setPoint(point);
+
+      list.add(test);
+    }
+    return list;
+
+  }
+
   public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school)
       throws Exception {
     List<Test> list = new ArrayList<>();
@@ -68,26 +95,9 @@ public class TestDao extends Dao {
       st.setString(5, school.getCd());
 
       try (ResultSet rSet = st.executeQuery()) {
-        while (rSet.next()) {
-          Student student = new Student();
-          student.setEntyear(rSet.getInt("student_entyear"));
-          student.setClassNum(rSet.getString("student_classnum"));
-          student.setNo(rSet.getString("student_no"));
-          student.setName(rSet.getString("student_name"));
 
-          Test test = new Test();
-          test.setStudent(student);
-          test.setClassNum(rSet.getString("class_num"));
+        list = postFilter(rSet, school);
 
-          // ★ NULL を -1 に変換
-          int point = rSet.getInt("POINT");
-          if (rSet.wasNull()) {
-            point = -1;
-          }
-          test.setPoint(point);
-
-          list.add(test);
-        }
       }
     }
     return list;
