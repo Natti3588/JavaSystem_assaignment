@@ -72,7 +72,7 @@
 				</div>
 				<div class="col-4">
 					<label class="form-label" for="student-f4-text">学生番号</label>					
-					<input class="form-control" type="text" id="student-f4-text" value="${studentno}" 
+					<input class="form-control" type="text" id="student-f4-text" value="${f4}" 
 					name="f4"required maxlength="10" placeholder="学生番号を入力してください" />							
 				</div>
 				<div class="col-2 text-center">
