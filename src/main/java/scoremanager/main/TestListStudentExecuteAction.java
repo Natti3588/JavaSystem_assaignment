@@ -71,7 +71,7 @@ public class TestListStudentExecuteAction extends Action{
 	    req.setAttribute("f3", subjects);
 //		成績一覧結果が空の時
     if(testliststudent.isEmpty()){
-    	errors.put("f1", "学生情報が存在しませんでした");
+    	errors.put("f1", "成績情報が存在しませんでした");
 	      // リクエストにエラーメッセージをセット
 	      req.setAttribute("error", errors);
 		  req.getRequestDispatcher("test_list_student.jsp").forward(req, res);
