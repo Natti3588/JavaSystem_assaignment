@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import bean.Student;
 import bean.Teacher;
 import bean.TestListStudent;
@@ -69,7 +70,7 @@ public class TestListStudentExecuteAction extends Action {
     req.setAttribute("f1", entYearSet);
     req.setAttribute("f2", classNum);
     req.setAttribute("f3", subjects);
-    // 成績一覧結果が空の時
+    req.setAttribute("f4", search_no);    
     if (testliststudent.isEmpty()) {
       errors.put("f1", "学生情報が存在しませんでした");
       // リクエストにエラーメッセージをセット
