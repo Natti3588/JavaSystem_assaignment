@@ -9,7 +9,7 @@
 
 	<c:param name="content">
 		<div id="wrap_box">
-			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2">クラス情報変更</h2>
+			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">クラス情報変更</h2>
 			<div id="wrap_box">
 				<p class="text-center" style="background-color:#8cc3a9">変更が完了しました</p>
 				<br>
