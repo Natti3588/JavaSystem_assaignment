@@ -65,7 +65,7 @@
 					<form action="TestListStudentExecute.action" method="get"
 						class="row gx-2 gy-2 align-items-center mt-3">
 						<div class="col-2 text-center">
-							<p>学生情報</p>
+							学生情報
 						</div>
 						<%-- 学生番号 --%>
 						<div class="col-4">
