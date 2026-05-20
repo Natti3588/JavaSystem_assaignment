@@ -83,6 +83,7 @@ public class TestRegistExecuteAction extends Action {
       // ０～１００以外ならエラーをセット
       if (point < 0 || point > 100) {
         errors.put(studentNo, "０～１００の値を入力してください");
+        inputPoints.put(studentNo, test.getPoint() == -1 ? "" : String.valueOf(test.getPoint()));
         continue;
       }
 
