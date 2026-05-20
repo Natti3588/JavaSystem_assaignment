@@ -35,6 +35,7 @@ ${param.scripts}
 				</c:when>
 				<%-- 未ログインの場合 --%>
 				<c:otherwise>
+					<div></div>
 					<main class="col-8">${param.content}</main>
 				</c:otherwise>
 			</c:choose>
