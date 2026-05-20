@@ -63,14 +63,6 @@ public class TestRegistExecuteAction extends Action {
       // 入力された点数をセット（学生番号別）
       String pointStr = req.getParameter("point_" + studentNo);
 
-      // 再表示用にポイントが書かれていれば、ポイントを表示
-      inputPoints.put(studentNo, pointStr == null ? "" : pointStr);
-
-      // 空欄だったらスキップ
-      if (pointStr == null || pointStr.isEmpty()) {
-        continue;
-      }
-
       // 数値変換チェック
       int point;
       try {
@@ -139,10 +131,7 @@ public class TestRegistExecuteAction extends Action {
     // 成功なら完了画面、失敗ならコンソールにエラー出力
     if (isSuccess) {
       req.getRequestDispatcher("test_regist_done.jsp").forward(req, res);
-    } else {
-      System.out.println("TESTテーブルへの保存が失敗しましたーーーーーーー");
     }
-
   }
 
 }
