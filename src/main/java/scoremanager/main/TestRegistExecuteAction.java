@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import bean.School;
 import bean.Student;
 import bean.Subject;
@@ -40,8 +41,9 @@ public class TestRegistExecuteAction extends Action {
     // フォームから検索条件を取得
     String entYearString = req.getParameter("f1");
     String classNumString = req.getParameter("f2");
-    String subjectCd = req.getParameter("f3");
-    String countString = req.getParameter("f4");
+    String subjectCd = req.getParameter("subject");
+    String countString = req.getParameter("count");
+    String[] studentNos = req.getParameterValues("regist");
 
     // 文字列を数値に変換
     int entYear = Integer.parseInt(entYearString);
@@ -59,6 +61,20 @@ public class TestRegistExecuteAction extends Action {
       // テストから学生情報を取得
       Student student = test.getStudent();
       String studentNo = student.getNo();
+
+      
+
+      //registに含まれているかチェック
+//      registで送られてきた学生番号が現在の学生番号studentNoと一致するかチェック
+      boolean exists = false;
+      for (String no : studentNos) {
+          if (no.equals(studentNo)) {
+              exists = true;
+              break;
+          }
+      }
+//      一致しなかったらスキップ
+      if (!exists) continue;
 
       // 入力された点数をセット（学生番号別）
       String pointStr = req.getParameter("point_" + studentNo);

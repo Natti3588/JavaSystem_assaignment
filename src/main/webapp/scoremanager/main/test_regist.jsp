@@ -109,14 +109,17 @@
 										<div class="mt-2 text-warning">${errors.get(test.student.no)}</div>
 									</td>
 								</tr>
+								<input type="hidden" id="regist" name="regist" value="${test.student.no}" />
+								
 							</c:forEach>
 						</table>
 							<input type="hidden" id="test-subject_cd-hidden" name="subject_cd" value="${subject.cd}" />
 							<input type="hidden"id="test-num-hidden" name="num" value="${num}" />
 							<input type="hidden" id="test-f1-hidden" name="f1" value="${f1}" /> 
 							<input type="hidden" id="test-f2-hidden" name="f2" value="${f2}" /> 
-							<input type="hidden" id="test-f3-hidden" name="f3" value="${f3}" /> 
-							<input type="hidden" id="test-f4-hidden" name="f4" value="${f4}" />
+							<input type="hidden" id="test-f3-hidden" name="subject" value="${f3}" /> 
+							<input type="hidden" id="test-f4-hidden" name="count" value="${f4}" />
+							
 						<div class="mt-3">
 							<input class="btn btn-secondary" type="submit" value="登録して終了" name="end" />
 						</div>
