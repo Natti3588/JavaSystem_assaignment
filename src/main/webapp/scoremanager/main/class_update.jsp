@@ -28,7 +28,7 @@
 					</div>
 
 					<div class="my-2 text-warning">
-						${errors.get("num")}
+						${errors.get("2")}
 					</div>
 
 				</div>

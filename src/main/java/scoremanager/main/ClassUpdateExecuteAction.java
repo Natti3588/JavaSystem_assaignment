@@ -1,5 +1,8 @@
 package scoremanager.main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bean.ClassNum;
 import bean.Teacher;
 import dao.ClassNumDao;
@@ -18,6 +21,9 @@ public class ClassUpdateExecuteAction extends Action{
 		// 1. パラメータの取得
 	    String oldclass_num = req.getParameter("old"); // 変更前のクラス番号
 	    String newclass_num = req.getParameter("num"); // 変更後のクラス番号
+		Map<String, String> errors = new HashMap<>(); // エラーメッセージ
+
+	    ClassNumDao classnumDao = new ClassNumDao();
 
 	    // 2. ClassNumインスタンスの作成と値のセット
 	    ClassNum classnum = new ClassNum();
@@ -26,9 +32,14 @@ public class ClassUpdateExecuteAction extends Action{
 	 // Schoolをセット
 	    classnum.setSchool(teacher.getSchool()); 
 	    
+	    if (classnumDao.get(newclass_num,teacher.getSchool()) != null) {
+			errors.put("2", "クラス番号が重複しています");
+			// リクエストにエラーメッセージをセット
+			req.setAttribute("errors", errors);
+		    req.getRequestDispatcher("class_update.jsp").forward(req, res);
+		    return;}
 
 	 // 3. 保存処理
-	    ClassNumDao classnumDao = new ClassNumDao();
 	    
 	    // classnum（Schoolセット済み）を第1引数に渡す
 	    classnumDao.save(classnum, newclass_num);

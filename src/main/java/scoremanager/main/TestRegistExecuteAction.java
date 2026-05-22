@@ -139,6 +139,7 @@ public class TestRegistExecuteAction extends Action {
 
       // 入力画面に戻す
       req.getRequestDispatcher("test_regist.jsp").forward(req, res);
+      return;
     }
 
     // DB保存を実行
@@ -147,6 +148,7 @@ public class TestRegistExecuteAction extends Action {
     // 成功なら完了画面、失敗ならコンソールにエラー出力
     if (isSuccess) {
       req.getRequestDispatcher("test_regist_done.jsp").forward(req, res);
+      return;
     }
   }
 
